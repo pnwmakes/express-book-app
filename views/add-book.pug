@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title Add a Book
+  body
+    h1 Add a Book
+    form(method="POST", action="/add-book")
+      label(for="isbn") ISBN:
+      input(type="text", name="isbn", required)
+      br
+      label(for="title") Title:
+      input(type="text", name="title", required)
+      br
+      label(for="author") Author:
+      input(type="text", name="author", required)
+      br
+      button(type="submit") Add Book
+    br
+    a(href="/") ← Back to book list

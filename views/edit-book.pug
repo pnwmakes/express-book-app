@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title Edit Book
+  body
+    h1 Edit Book
+    form(method="POST", action="/edit-book/" + book.isbn)
+      label(for="isbn") ISBN:
+      input(type="text", name="isbn", value=book.isbn readonly)
+      br
+      label(for="title") Title:
+      input(type="text", name="title", value=book.title required)
+      br
+      label(for="author") Author:
+      input(type="text", name="author", value=book.author required)
+      br
+      button(type="submit") Save Changes
+    br
+    a(href="/") ← Back to Book List

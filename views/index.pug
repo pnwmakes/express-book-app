@@ -1,0 +1,42 @@
+ddoctype 
+html
+  head
+    title Book List
+  body
+    h1 Book List
+
+    // 🔍 Search Form
+    form(method="GET", action="/")
+      input(type="text", name="search", placeholder="Search by title, author, or publisher", value=search)
+      button(type="submit") Search
+
+    a(href="/add-book") + Add New Book
+
+    // 📚 Book Results
+    ul
+      if books.length
+        each book in books
+          li
+            if search
+              // Show full details when searching
+              h2 #{book.title}
+              p Author: #{book.author}
+              p ISBN: #{book.isbn}
+              p Publisher: #{book.publisher}
+              p Published: #{new Date(book.published).toDateString()}
+              p Pages: #{book.pages}
+              if book.description
+                p Description: #{book.description}
+              if book.website
+                p: a(href=book.website, target="_blank") Visit Website
+            else
+              // Simple listing on homepage
+              a(href="/book/" + book.isbn) #{book.title} by #{book.author}
+            
+            // Edit and Delete options (always shown)
+            p
+              a(href="/edit-book/" + book.isbn) [Edit]
+              form(method="POST", action="/delete-book/" + book.isbn, style="display:inline")
+                button(type="submit") Delete
+      else
+        li No books found.

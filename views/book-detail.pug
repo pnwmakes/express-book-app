@@ -1,0 +1,16 @@
+doctype html
+html
+  head
+    title= book.title
+  body
+    h1= book.title
+    h3 by #{book.author}
+    p ISBN: #{book.isbn}
+    p Published: #{new Date(book.published).toDateString()}
+    p Publisher: #{book.publisher}
+    p Pages: #{book.pages}
+    p Description: #{book.description}
+    p
+      a(href=book.website target="_blank") More info
+    br
+    a(href="/") ← Back to list
