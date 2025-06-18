@@ -1,16 +1,43 @@
 doctype html
 html
   head
-    title= book.title
-  body
-    h1= book.title
-    h3 by #{book.author}
-    p ISBN: #{book.isbn}
-    p Published: #{new Date(book.published).toDateString()}
-    p Publisher: #{book.publisher}
-    p Pages: #{book.pages}
-    p Description: #{book.description}
-    p
-      a(href=book.website target="_blank") More info
-    br
-    a(href="/") ← Back to list
+    title Book Detail
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css")
+  body(class="bg-gray-100 min-h-screen text-gray-900")
+    .max-w-2xl.mx-auto.mt-12.px-4
+      h1(class="text-3xl font-bold mb-6 text-center") Book Details
+
+      .bg-white.shadow-md.rounded-lg.p-6
+        h2(class="text-2xl font-semibold mb-4") #{book.title}
+        p.mb-2
+          strong Author:
+          |  #{book.author}
+        p.mb-2
+          strong ISBN:
+          |  #{book.isbn}
+        if book.publisher
+          p.mb-2
+            strong Publisher:
+            |  #{book.publisher}
+        if book.published
+          p.mb-2
+            strong Published:
+            |  #{book.published.toDateString()}
+        if book.pages
+          p.mb-2
+            strong Pages:
+            |  #{book.pages}
+        if book.description
+          p.mb-4
+            strong Description:
+            br
+            | #{book.description}
+        if book.website
+          p.mb-2
+            strong Website:
+            a(class="text-blue-600 hover:underline ml-1", href=book.website, target="_blank") Visit
+
+      .mt-6
+        a(class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition", href="/") ← Back to Book List
