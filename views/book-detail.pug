@@ -1,16 +1,15 @@
 doctype html
 html
   head
-    title Book Detail
+    title= book.title
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css")
   body(class="bg-gray-100 min-h-screen text-gray-900")
-    .max-w-2xl.mx-auto.mt-12.px-4
-      h1(class="text-3xl font-bold mb-6 text-center") Book Details
+    .max-w-3xl.mx-auto.mt-12.px-4
+      h1.text-3xl.font-bold.mb-6.text-center= book.title
 
       .bg-white.shadow-md.rounded-lg.p-6
-        h2(class="text-2xl font-semibold mb-4") #{book.title}
         p.mb-2
           strong Author:
           |  #{book.author}
@@ -30,14 +29,16 @@ html
             strong Pages:
             |  #{book.pages}
         if book.description
-          p.mb-4
+          p.mb-2
             strong Description:
-            br
-            | #{book.description}
+            |  #{book.description}
         if book.website
           p.mb-2
             strong Website:
             a(class="text-blue-600 hover:underline ml-1", href=book.website, target="_blank") Visit
 
-      .mt-6
-        a(class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition", href="/") ← Back to Book List
+      .mt-6.flex.gap-2
+        a(class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition", href="/") Back to Book List
+        a(class="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition", href=`/edit-book/${book.isbn}`) Edit
+        form(action=`/delete-book/${book.isbn}`, method="POST")
+          button(type="submit", class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition") Delete

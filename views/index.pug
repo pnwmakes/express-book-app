@@ -11,41 +11,39 @@ html
 
       //- Add Book Button
       .text-center.mb-6
-        a.bg-green-600.text-white.px-4.py-2.rounded-md.hover:bg-green-700.transition(href="/add-book") + Add New Book
+        a(class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition", href="/add-book") Add New Book
 
       //- Search Form
-      form.flex.flex-col.sm:flex-row.items-center.justify-center.mb-6.gap-4(action="/" method="GET")
+      form(class="flex flex-col sm:flex-row items-center justify-center mb-6 gap-4", action="/", method="GET")
         input(
-          type="text" 
-          name="search" 
-          placeholder="Search books..." 
-          value=search 
+          type="text",
+          name="search",
+          placeholder="Search books...",
+          value=search,
           class="w-full sm:w-1/2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         )
         button(
-          type="submit" 
+          type="submit",
           class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
         ) Search
 
       if search
         a(
-          href="/" 
+          href="/",
           class="block mb-4 text-center text-sm text-blue-600 hover:underline"
         ) ← Back to Full Book List
 
       if books.length
-        .grid.grid-cols-1.sm:grid-cols-2.lg:grid-cols-3.gap-6
+        div(class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6")
           each book in books
             .bg-white.shadow-md.rounded-lg.p-6.flex.flex-col.justify-between
               h2.text-xl.font-semibold.mb-2 #{book.title}
               p.text-gray-700.mb-1 Author: #{book.author}
               p.text-gray-600.text-sm.mb-2 ISBN: #{book.isbn}
-
-              //- Action Links
-              a.text-blue-600.hover:underline.mb-2(href=`/book/${book.isbn}`) View Details →
-              a.text-yellow-600.hover:underline.mb-2(href=`/edit-book/${book.isbn}`) ✎ Edit
-
-              form(action=`/delete-book/${book.isbn}` method="POST")
-                button.text-red-600.hover:underline(type="submit" onclick="return confirm('Are you sure you want to delete this book?')") 🗑 Delete
+              .mt-4.flex.flex-wrap.gap-2
+                a(class="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 transition", href=`/book/${book.isbn}`) View
+                a(class="bg-yellow-500 text-white px-3 py-1 rounded-md hover:bg-yellow-600 transition", href=`/edit-book/${book.isbn}`) Edit
+                form(action=`/delete-book/${book.isbn}`, method="POST")
+                  button(type="submit", class="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 transition") Delete
       else
         p.text-center.text-gray-500.mt-10 No books found.
