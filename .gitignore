@@ -13,9 +13,8 @@ Thumbs.db
 # Environment variables
 .env
 
-# VS Code settings (optional, for team cleanliness)
+# VS Code settings (optional)
 .vscode/
 
-# Mac zip metadata (if using archive tools)
+# Mac zip metadata
 __MACOSX/
-node_modules/

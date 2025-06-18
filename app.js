@@ -1,89 +1,115 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
+const mongoose = require('mongoose');
+const Book = require('./models/Book');
+
 const app = express();
-const books = require('./book-data').books;
+
+mongoose
+    .connect(process.env.MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => console.log('✅ MongoDB connected'))
+    .catch((err) => console.error(' MongoDB connection error:', err));
 
 app.use(express.urlencoded({ extended: true }));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
     const searchQuery = req.query.search ? req.query.search.toLowerCase() : '';
-
-    const filteredBooks = books.filter((book) => {
-        const title = book.title?.toLowerCase() || '';
-        const author = book.author?.toLowerCase() || '';
-        const publisher = book.publisher?.toLowerCase() || '';
-        return (
-            title.includes(searchQuery) ||
-            author.includes(searchQuery) ||
-            publisher.includes(searchQuery)
-        );
-    });
-
-    res.render('index', {
-        books: filteredBooks,
-        search: req.query.search || '',
-    });
+    try {
+        let books = await Book.find();
+        if (searchQuery) {
+            books = books.filter((book) => {
+                const title = book.title?.toLowerCase() || '';
+                const author = book.author?.toLowerCase() || '';
+                const publisher = book.publisher?.toLowerCase() || '';
+                return (
+                    title.includes(searchQuery) ||
+                    author.includes(searchQuery) ||
+                    publisher.includes(searchQuery)
+                );
+            });
+        }
+        res.render('index', { books, search: req.query.search || '' });
+    } catch (err) {
+        res.status(500).send('Error fetching books');
+    }
 });
 
-app.get('/book/:isbn', (req, res) => {
-    const book = books.find((b) => b.isbn === req.params.isbn);
-    if (!book) return res.status(404).send('Book not found');
-    res.render('book-detail', { book });
+app.get('/book/:isbn', async (req, res) => {
+    try {
+        const book = await Book.findOne({ isbn: req.params.isbn });
+        if (!book) return res.status(404).send('Book not found');
+        res.render('book-detail', { book });
+    } catch (err) {
+        res.status(500).send('Error retrieving book');
+    }
 });
 
 app.get('/add-book', (req, res) => {
     res.render('add-book');
 });
 
-app.post('/add-book', (req, res) => {
+app.post('/add-book', async (req, res) => {
     const { isbn, title, author } = req.body;
     if (!isbn || !title || !author) {
         return res.status(400).send('Missing required fields');
     }
-    books.push({
-        isbn,
-        title,
-        author,
-        published: new Date().toISOString(),
-        publisher: 'Unknown',
-        pages: 0,
-        description: '',
-        website: '',
-    });
-    res.redirect('/');
-});
 
-app.post('/delete-book/:isbn', (req, res) => {
-    const index = books.findIndex((book) => book.isbn === req.params.isbn);
-    if (index !== -1) {
-        books.splice(index, 1);
+    try {
+        const newBook = new Book({
+            isbn,
+            title,
+            author,
+        });
+
+        await newBook.save();
+        res.redirect('/');
+    } catch (err) {
+        res.status(500).send('Error adding book');
     }
-    res.redirect('/');
 });
 
-app.get('/edit-book/:isbn', (req, res) => {
-    const book = books.find((b) => b.isbn === req.params.isbn);
-    if (!book) return res.status(404).send('Book not found');
-    res.render('edit-book', { book });
+app.post('/delete-book/:isbn', async (req, res) => {
+    try {
+        await Book.findOneAndDelete({ isbn: req.params.isbn });
+        res.redirect('/');
+    } catch (err) {
+        res.status(500).send('Error deleting book');
+    }
 });
 
-app.post('/edit-book/:isbn', (req, res) => {
-    const index = books.findIndex((b) => b.isbn === req.params.isbn);
-    if (index === -1) return res.status(404).send('Book not found');
+app.get('/edit-book/:isbn', async (req, res) => {
+    try {
+        const book = await Book.findOne({ isbn: req.params.isbn });
+        if (!book) return res.status(404).send('Book not found');
+        res.render('edit-book', { book });
+    } catch (err) {
+        res.status(500).send('Error loading edit form');
+    }
+});
 
+app.post('/edit-book/:isbn', async (req, res) => {
     const { title, author } = req.body;
 
     if (!title || !author) {
         return res.status(400).send('Missing required fields');
     }
 
-    books[index].title = title;
-    books[index].author = author;
-
-    res.redirect('/');
+    try {
+        await Book.findOneAndUpdate(
+            { isbn: req.params.isbn },
+            { title, author }
+        );
+        res.redirect('/');
+    } catch (err) {
+        res.status(500).send('Error updating book');
+    }
 });
 
-app.listen(3000, () => console.log('Server running on port 3000'));
+app.listen(3000, () => console.log(' Server running on http://localhost:3000'));
