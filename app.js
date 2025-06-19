@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const Book = require('./models/Book');
-
+const seedBooks = require('./scripts/seed-books');
 const app = express();
 
 mongoose
@@ -109,6 +109,14 @@ app.post('/edit-book/:isbn', async (req, res) => {
         res.redirect('/');
     } catch (err) {
         res.status(500).send('Error updating book');
+    }
+});
+app.post('/seed', async (req, res) => {
+    try {
+        await seedBooks();
+        res.redirect('/');
+    } catch (err) {
+        res.status(500).send('Error resetting library');
     }
 });
 
