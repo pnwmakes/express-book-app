@@ -7,10 +7,11 @@ async function runSeed() {
         await mongoose.connect(process.env.MONGODB_URI);
         await seedBooks();
         console.log('✅ Seed complete');
-        process.exit();
     } catch (err) {
-        console.error(' Seed error:', err);
-        process.exit(1);
+        console.error('❌ Seed error:', err);
+    } finally {
+        await mongoose.disconnect();
+        process.exit();
     }
 }
 

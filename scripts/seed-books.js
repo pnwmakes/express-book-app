@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 const Book = require('../models/Book');
 
 const books = [
@@ -11,7 +12,8 @@ const books = [
         pages: 472,
         description:
             'JavaScript lies at the heart of almost every modern web application...',
-        website: 'http://eloquentjavascript.net/',
+        website: 'https://eloquentjavascript.net/',
+        coverUrl: 'https://eloquentjavascript.net/img/cover.jpg',
     },
     {
         isbn: '9781491943533',
@@ -23,6 +25,8 @@ const books = [
         description:
             'To get the most out of modern JavaScript, you need learn the latest features...',
         website: 'https://github.com/mjavascript/practical-modern-javascript',
+        coverUrl:
+            'https://m.media-amazon.com/images/I/81LpyFBbo8L._SL1500_.jpg',
     },
     {
         isbn: '9781593277574',
@@ -34,6 +38,8 @@ const books = [
         description:
             'ECMAScript 6 represents the biggest update to the core of JavaScript...',
         website: 'https://leanpub.com/understandinges6/read',
+        coverUrl:
+            'https://d2sofvawe08yqg.cloudfront.net/understandinges6/s_hero2x?1620418785',
     },
     {
         isbn: '9781449365035',
@@ -44,7 +50,8 @@ const books = [
         pages: 460,
         description:
             'JavaScript is everywhere these days — from browser to server to mobile...',
-        website: 'http://speakingjs.com/',
+        website: 'https://speakingjs.com/',
+        coverUrl: 'https://exploringjs.com/es5/index/speakingjs_cover.jpg',
     },
     {
         isbn: '9781449331818',
@@ -56,7 +63,9 @@ const books = [
         description:
             'Learn how to write beautiful, structured, and maintainable JavaScript...',
         website:
-            'http://www.addyosmani.com/resources/essentialjsdesignpatterns/book/',
+            'https://www.addyosmani.com/resources/essentialjsdesignpatterns/book/',
+        coverUrl:
+            'https://learning.oreilly.com/library/cover/9781484200766/250w/',
     },
     {
         isbn: '9798602477429',
@@ -69,6 +78,7 @@ const books = [
             'The worldwide bestselling JS book series is back for a 2nd edition...',
         website:
             'https://github.com/getify/You-Dont-Know-JS/tree/2nd-ed/get-started',
+        coverUrl: 'https://m.media-amazon.com/images/I/813hbklwWBL._SY466_.jpg',
     },
     {
         isbn: '9781484200766',
@@ -80,6 +90,7 @@ const books = [
         description:
             'Pro Git (Second Edition) is your fully-updated guide to Git and its usage...',
         website: 'https://git-scm.com/book/en/v2',
+        coverUrl: 'https://git-scm.com/images/progit2.png',
     },
     {
         isbn: '9781484242216',
@@ -91,15 +102,19 @@ const books = [
         description:
             'Improve the productivity of your software teams. This open access book...',
         website: 'https://doi.org/10.1007/978-1-4842-4221-6',
+        coverUrl:
+            'https://media.springernature.com/w316/springer-static/cover-hires/book/978-1-4842-4221-6?as=webp',
     },
 ];
 
 async function seedBooks() {
-    for (const book of books) {
-        const exists = await Book.exists({ isbn: book.isbn });
-        if (!exists) {
-            await Book.create(book);
-        }
+    try {
+        await Book.deleteMany();
+        await Book.insertMany(books);
+        console.log('✅ Seed complete: books added to MongoDB');
+    } catch (err) {
+        console.error('❌ Seed error:', err);
+        throw err; // propagate error to caller (e.g. POST /seed)
     }
 }
 

@@ -38,6 +38,7 @@ html
         div(class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6")
           each book in books
             div(class="bg-white shadow-md rounded-lg p-6 flex flex-col justify-between transition-shadow hover:shadow-xl")
+              img(src=book.coverUrl, alt=book.title, class="h-48 object-contain mb-4 rounded-md border")
               h2(class="text-xl font-semibold mb-2 text-gray-800") #{book.title}
               p(class="text-gray-700 mb-1") Author: #{book.author}
               p(class="text-gray-600 text-sm mb-2") ISBN: #{book.isbn}
@@ -47,6 +48,8 @@ html
                 form(action=`/delete-book/${book.isbn}`, method="POST")
                   button(type="submit", class="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 transition") Delete
       else
-        p(class="text-center text-gray-500 mt-10") No books found.
+      p(class="text-center text-gray-500 mt-10") No books found.
+
+
 footer.text-center.text-xs.text-gray-400.mt-10.pb-4
       | Built by James · Victory Code Bootcamp
