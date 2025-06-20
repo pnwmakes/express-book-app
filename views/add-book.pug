@@ -1,25 +1,36 @@
 doctype html
-html
+html(lang="en")
   head
     title Add New Book
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css")
-  body(class="bg-gray-100 min-h-screen text-gray-900")
-    .max-w-xl.mx-auto.mt-12.px-4
-      h1.text-3xl.font-bold.mb-6.text-center Add New Book
+    link(rel="stylesheet", href="/styles.css")
 
-      form(action="/add-book" method="POST" class="bg-white shadow-md rounded-lg p-6 space-y-4")
-        input(type="text" name="title" placeholder="Title" required class="w-full px-4 py-2 border border-gray-300 rounded-md")
-        input(type="text" name="author" placeholder="Author" required class="w-full px-4 py-2 border border-gray-300 rounded-md")
-        input(type="text" name="isbn" placeholder="ISBN" required class="w-full px-4 py-2 border border-gray-300 rounded-md")
-        input(type="text" name="publisher" placeholder="Publisher (optional)" class="w-full px-4 py-2 border border-gray-300 rounded-md")
-        input(type="date" name="published" class="w-full px-4 py-2 border border-gray-300 rounded-md")
-        input(type="number" name="pages" placeholder="Page count (optional)" class="w-full px-4 py-2 border border-gray-300 rounded-md")
-        textarea(name="description" rows="3" placeholder="Description (optional)" class="w-full px-4 py-2 border border-gray-300 rounded-md")
-        input(type="url" name="website" placeholder="Website URL (optional)" class="w-full px-4 py-2 border border-gray-300 rounded-md")
+  body
+    script.
+      function toggleDarkMode() {
+        document.documentElement.classList.toggle('dark');
+      }
 
-        button(type="submit" class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition") Add Book
+    .container.add-book-page
+      button(onclick="toggleDarkMode()" class="btn btn-dark-mode") Toggle Dark Mode
 
-      .mt-4.text-center
-        a(href="/" class="text-blue-600 hover:underline") ← Back to Book List
+      h1.title Add New Book
+
+      .form-wrapper
+        .form-card
+          form(action="/add-book", method="POST")
+            input(type="text", name="title", placeholder="Title", required)
+            input(type="text", name="author", placeholder="Author", required)
+            input(type="text", name="isbn", placeholder="ISBN", required)
+            input(type="text", name="publisher", placeholder="Publisher (optional)")
+            input(type="date", name="published")
+            input(type="number", name="pages", placeholder="Page count (optional)")
+            textarea(name="description", rows="3", placeholder="Description (optional)")
+            input(type="url", name="website", placeholder="Website URL (optional)")
+            button(type="submit", class="btn btn-green") Add Book
+
+        .back-link.centered
+          a(href="/") ← Back to Book List
+
+    footer.footer Built by James · Victory Code Bootcamp

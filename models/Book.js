@@ -9,7 +9,7 @@ const bookSchema = new mongoose.Schema({
     pages: { type: Number, default: 0 },
     description: { type: String, default: '' },
     website: { type: String, default: '' },
-    coverUrl: { type: String, default: '' }, // ✅ This line is the fix
+    coverUrl: { type: String, default: '' },
 });
 
 module.exports = mongoose.model('Book', bookSchema);

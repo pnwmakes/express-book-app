@@ -1,24 +1,24 @@
 doctype html
-html
+html(lang="en")
   head
     title Edit Book
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css")
-  body(class="bg-gray-100 min-h-screen text-gray-900")
-    .max-w-xl.mx-auto.mt-12.px-4
-      h1.text-3xl.font-bold.mb-6.text-center Edit Book
+    link(rel="stylesheet", href="/styles.css")
+  body
+    .container
+      h1.text-center.heading-lg Edit Book
 
-      form(action=`/edit-book/${book.isbn}` method="POST" class="bg-white shadow-md rounded-lg p-6 space-y-4")
-        input(type="text" name="title" value=book.title required class="w-full px-4 py-2 border border-gray-300 rounded-md")
-        input(type="text" name="author" value=book.author required class="w-full px-4 py-2 border border-gray-300 rounded-md")
-        input(type="text" name="isbn" value=book.isbn required class="w-full px-4 py-2 border border-gray-300 rounded-md")
-        input(type="text" name="publisher" value=book.publisher class="w-full px-4 py-2 border border-gray-300 rounded-md")
-        input(type="date" name="published" value=formattedDate class="w-full px-4 py-2 border border-gray-300 rounded-md")
-        input(type="number" name="pages" value=book.pages class="w-full px-4 py-2 border border-gray-300 rounded-md")
-        textarea(name="description" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md") #{book.description}
-        input(type="url" name="website" value=book.website class="w-full px-4 py-2 border border-gray-300 rounded-md")
-        button(type="submit" class="w-full bg-yellow-500 text-white py-2 rounded-md hover:bg-yellow-600 transition") Update Book
+      form(action=`/edit-book/${book.isbn}` method="POST" class="form-card")
+        input(type="text" name="title" value=book.title required class="form-input")
+        input(type="text" name="author" value=book.author required class="form-input")
+        input(type="text" name="isbn" value=book.isbn required class="form-input")
+        input(type="text" name="publisher" value=book.publisher class="form-input")
+        input(type="date" name="published" value=formattedDate class="form-input")
+        input(type="number" name="pages" value=book.pages class="form-input")
+        textarea(name="description" rows="3" class="form-input") #{book.description}
+        input(type="url" name="website" value=book.website class="form-input")
+        button(type="submit" class="btn btn-yellow full-width") Update Book
 
-      .mt-4.text-center
-        a(href="/" class="text-blue-600 hover:underline") ← Back to Book List
+      .text-center.mt-4
+        a(href="/" class="link") ← Back to Book List

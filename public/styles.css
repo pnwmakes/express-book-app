@@ -1,0 +1,263 @@
+/* Base layout */
+body {
+    background: linear-gradient(to bottom right, #fdf6e3, #e0c9a6);
+    color: #1a1a1a;
+    font-family: sans-serif;
+    transition: background-color 0.5s ease, color 0.5s ease;
+    margin: 0;
+    padding: 0;
+}
+
+.dark body {
+    background: #1a1a1a !important;
+    color: #f5f5f5 !important;
+}
+
+/* Layout container */
+.container {
+    max-width: 80rem;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+/* Typography */
+.title {
+    font-size: 2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+header,
+footer {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    color: white;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+}
+
+.btn-dark-mode {
+    background-color: #333;
+    margin-bottom: 1rem;
+}
+
+.btn-indigo { background-color: #4f46e5; }
+.btn-indigo:hover { background-color: #4338ca; }
+
+.btn-gray { background-color: #4b5563; }
+.btn-gray:hover { background-color: #374151; }
+
+.btn-blue { background-color: #2563eb; }
+.btn-blue:hover { background-color: #1d4ed8; }
+
+.btn-yellow { background-color: #f59e0b; }
+.btn-yellow:hover { background-color: #d97706; }
+
+.btn-red { background-color: #dc2626; }
+.btn-red:hover { background-color: #b91c1c; }
+
+.btn-green { background-color: #16a34a; }
+.btn-green:hover { background-color: #15803d; }
+
+/* Forms - Search */
+.search-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+    .search-form {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+.search-input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.375rem;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Cards */
+.card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.5s ease;
+    max-width: 300px;
+    width: 100%;
+}
+
+.card img {
+    width: 100%;
+    height: 12rem;
+    object-fit: contain;
+    margin-bottom: 1rem;
+    border-radius: 0.375rem;
+    border: 1px solid #ccc;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.card-author,
+.card-isbn {
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+    color: #555;
+}
+
+.card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.card-actions .btn,
+.card-actions form .btn {
+    flex: 1 1 30%;
+    text-align: center;
+    width: 100%;
+    padding: 0.5rem 0;
+}
+
+.card-actions form {
+    flex: 1 1 30%;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Dark mode fields */
+.dark input,
+.dark textarea,
+.dark select {
+    background-color: #2a2a2a;
+    color: #f5f5f5;
+    border-color: #555;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+    color: #aaa;
+}
+
+.dark .card,
+.dark .card-title,
+.dark .card-author,
+.dark .card-isbn {
+    background-color: #2e2e2e;
+    color: #e5e5e5;
+}
+
+/* Add Book Form */
+.add-book-page .form-card {
+    max-width: 400px;
+    margin: 0 auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    width: 100%;
+}
+
+@media (max-width: 480px) {
+    .form-card {
+        padding: 1rem;
+    }
+
+    .form-card input,
+    .form-card textarea,
+    .form-card button {
+        font-size: 1rem;
+        width: 100%;
+    }
+}
+
+.add-book-page form input,
+.add-book-page form textarea {
+    display: block;
+    width: 100%;
+    padding-left: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.375rem;
+}
+
+.add-book-page form button {
+    width: 100%;
+}
+
+.form-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.back-link.centered {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.back-link.centered a {
+    color: #6b21a8;
+    text-decoration: none;
+}
+
+.back-link.centered a:hover {
+    text-decoration: underline;
+}
+
+/* Generic inputs */
+input,
+textarea,
+select {
+    background-color: #fff;
+    color: #1a1a1a;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    width: 100%;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #888;
+}

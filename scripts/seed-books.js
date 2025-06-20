@@ -111,10 +111,10 @@ async function seedBooks() {
     try {
         await Book.deleteMany();
         await Book.insertMany(books);
-        console.log('✅ Seed complete: books added to MongoDB');
+        console.log(' Seed complete: books added to MongoDB');
     } catch (err) {
-        console.error('❌ Seed error:', err);
-        throw err; // propagate error to caller (e.g. POST /seed)
+        console.error(' Seed error:', err);
+        throw err;
     }
 }
 

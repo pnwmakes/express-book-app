@@ -11,14 +11,12 @@ mongoose
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
-    .then(() => console.log('✅ MongoDB connected'))
+    .then(() => console.log(' MongoDB connected'))
     .catch((err) => console.error(' MongoDB connection error:', err));
-
+app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
-app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-
 app.get('/', async (req, res) => {
     const searchQuery = req.query.search ? req.query.search.toLowerCase() : '';
     try {
