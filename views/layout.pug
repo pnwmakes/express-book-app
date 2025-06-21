@@ -1,0 +1,22 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Express Book App
+    link(rel="stylesheet", href="/styles.css")
+  body(class="bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-gray-100 min-h-screen")
+
+    // Navbar
+    nav(class="bg-white dark:bg-zinc-900 shadow mb-6")
+      .container.mx-auto.px-4.py-4.flex.justify-between.items-center
+        a(href="/", class="text-xl font-bold text-green-600 dark:text-green-400") Book App
+        ul(class="flex space-x-4")
+          li
+            a(href="/", class="text-gray-700 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-400") Home
+          li
+            a(href="/add-book", class="text-gray-700 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-400") Add Book
+
+    // Main content
+    main(class="container mx-auto px-4")
+      block content

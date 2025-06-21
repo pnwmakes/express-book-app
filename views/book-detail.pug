@@ -1,61 +1,11 @@
-doctype html
-html(lang="en")
-  head
-    title= book.title
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    link(rel="stylesheet", href="/styles.css")
-  body
-    script.
-      if (localStorage.getItem('darkMode') === 'true') {
-        document.documentElement.classList.add('dark');
-      }
-      function toggleDarkMode() {
-        const isDark = document.documentElement.classList.toggle('dark');
-        localStorage.setItem('darkMode', isDark);
-      }
+extends layout
 
-    .container
-      button(onclick="toggleDarkMode()" class="btn btn-dark-mode") Toggle Dark Mode
+block content
+  .max-w-2xl.mx-auto.p-6
+    .book-card(class="bg-white dark:bg-zinc-900 shadow-md rounded-lg p-6")
+      h2(class="text-2xl font-bold mb-4")= book.title
 
-      header
-        h1.title= book.title
+      p(class="text-lg mb-2 text-gray-700 dark:text-gray-300") Author: #{book.author}
+      p(class="text-lg mb-2 text-gray-600 dark:text-gray-400") ISBN: #{book.isbn}
 
-      .card(style="margin: 0 auto; max-width: 28rem;")
-        if book.author
-          p
-            strong Author:
-            |  #{book.author}
-        if book.isbn
-          p
-            strong ISBN:
-            |  #{book.isbn}
-        if book.publisher
-          p
-            strong Publisher:
-            |  #{book.publisher}
-        if book.published
-          p
-            strong Published:
-            |  #{book.published.toDateString()}
-        if book.pages
-          p
-            strong Pages:
-            |  #{book.pages}
-        if book.description
-          p
-            strong Description:
-            |  #{book.description}
-        if book.website
-          p
-            strong Website:
-            a(href=book.website, class="text-blue-600", target="_blank") Visit
-
-      .card-actions(style="margin: 1rem auto; max-width: 28rem; display: flex; justify-content: center; gap: 1rem;")
-        a(href="/" class="btn btn-gray") Back to Book List
-        a(href=`/edit-book/${book.isbn}` class="btn btn-yellow") Edit
-        form(action=`/delete-book/${book.isbn}`, method="POST")
-          button(type="submit" class="btn btn-red") Delete
-
-    footer(class="text-center")
-      | Built by James · Victory Code Bootcamp
+      a(href="/", class="inline-block mt-4 text-blue-600 hover:underline") Back to List

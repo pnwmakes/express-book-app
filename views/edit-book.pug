@@ -1,24 +1,12 @@
-doctype html
-html(lang="en")
-  head
-    title Edit Book
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    link(rel="stylesheet", href="/styles.css")
-  body
-    .container
-      h1.text-center.heading-lg Edit Book
+extends layout
 
-      form(action=`/edit-book/${book.isbn}` method="POST" class="form-card")
-        input(type="text" name="title" value=book.title required class="form-input")
-        input(type="text" name="author" value=book.author required class="form-input")
-        input(type="text" name="isbn" value=book.isbn required class="form-input")
-        input(type="text" name="publisher" value=book.publisher class="form-input")
-        input(type="date" name="published" value=formattedDate class="form-input")
-        input(type="number" name="pages" value=book.pages class="form-input")
-        textarea(name="description" rows="3" class="form-input") #{book.description}
-        input(type="url" name="website" value=book.website class="form-input")
-        button(type="submit" class="btn btn-yellow full-width") Update Book
+block content
+  h2.text-3xl.font-bold.mb-6.text-center Edit Book
 
-      .text-center.mt-4
-        a(href="/" class="link") ← Back to Book List
+  .form-wrapper.flex.justify-center
+    .form-card(class="bg-white dark:bg-zinc-900 shadow-md rounded-lg p-6")
+      form(action=`/edit-book/${book._id}`, method="POST", class="space-y-4")
+        input(type="text", name="title", value=book.title, required, class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
+        input(type="text", name="author", value=book.author, required, class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
+        input(type="text", name="isbn", value=book.isbn, required, class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
+        button(type="submit", class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded") Update Book

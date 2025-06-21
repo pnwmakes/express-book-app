@@ -1,61 +1,22 @@
-doctype html
-html(lang="en")
-  head
-    title Code & Coffee: James’s Library
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    link(rel="stylesheet", href="/styles.css")
-  body
-    script.
-      // Apply dark mode if previously enabled
-      if (localStorage.getItem('darkMode') === 'true') {
-        document.documentElement.classList.add('dark');
-      }
+extends layout
 
-      function toggleDarkMode() {
-        const isDark = document.documentElement.classList.toggle('dark');
-        localStorage.setItem('darkMode', isDark);
-      }
+block content
+  .flex.justify-between.items-center.mb-8
+    h1(class="text-3xl font-bold") Book List
+    a(href="/add-book", class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded") Add New Book
 
-    .container
-      button(onclick="toggleDarkMode()" class="btn btn-dark-mode") Toggle Dark Mode
+  if books.length
+    ul(class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6")
+      each book in books
+        li(class="bg-white dark:bg-zinc-900 shadow-md rounded-lg p-6 flex flex-col justify-between")
+          h3(class="text-xl font-semibold mb-2")= book.title
+          p(class="text-zinc-700 dark:text-zinc-300 mb-2") Author: #{book.author}
+          p(class="text-zinc-600 dark:text-zinc-400 mb-4") ISBN: #{book.isbn}
 
-      header
-        h1.title
-          img(src="https://cdn-icons-png.flaticon.com/512/2935/2935301.png", alt="coffee cup", style="width: 2rem; height: 2rem;")
-          | Code & Coffee: James’s Library
-
-      // Action Buttons
-      div(class="search-form")
-        a(href="/add-book" class="btn btn-indigo") Add New Book
-        form(action="/seed", method="POST")
-          button(type="submit" class="btn btn-gray") Reset Library
-
-      // Search Form
-      form(class="search-form", action="/", method="GET")
-        input(type="text", name="search", placeholder="Search books...", value=search, class="search-input")
-        button(type="submit" class="btn btn-indigo") Search
-
-      if books.length
-        div(class="card-grid")
-          each book in books
-            div(class="card")
-              img(src=book.coverUrl, alt=book.title)
-              h2(class="card-title") #{book.title}
-              p(class="card-author") Author: #{book.author}
-              p(class="card-isbn") ISBN: #{book.isbn}
-              div(class="card-actions")
-                a(href=`/book/${book.isbn}` class="btn btn-blue") View
-                a(href=`/edit-book/${book.isbn}` class="btn btn-yellow") Edit
-                form(action=`/delete-book/${book.isbn}`, method="POST")
-                  button(type="submit" class="btn btn-red full-button") Delete
-      else
-        p(class="text-center") No books found.
-
-      // Back to Full List Link - moved below
-      if search
-        .back-link.centered(style="text-align: center; margin-top: 2rem;")
-          a(href="/" class="text-blue-600") ← Back to Full Book List
-
-    footer(class="text-center")
-      | Built by James · Victory Code Bootcamp
+          .flex.justify-between.items-center.space-x-2.mt-auto
+            a(href=`/book/${book.isbn}`, class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded") View
+            a(href=`/edit-book/${book.isbn}`, class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-1 px-3 rounded") Edit
+            form(action=`/delete-book/${book.isbn}`, method="POST", class="inline")
+              button(type="submit", class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded") Delete
+  else
+    p(class="text-center text-zinc-600 dark:text-zinc-300") No books found. Add one to get started!

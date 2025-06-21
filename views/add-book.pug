@@ -1,36 +1,12 @@
-doctype html
-html(lang="en")
-  head
-    title Add New Book
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    link(rel="stylesheet", href="/styles.css")
+extends layout
 
-  body
-    script.
-      function toggleDarkMode() {
-        document.documentElement.classList.toggle('dark');
-      }
+block content
+  h2.text-3xl.font-bold.mb-6.text-center Add a New Book
 
-    .container.add-book-page
-      button(onclick="toggleDarkMode()" class="btn btn-dark-mode") Toggle Dark Mode
-
-      h1.title Add New Book
-
-      .form-wrapper
-        .form-card
-          form(action="/add-book", method="POST")
-            input(type="text", name="title", placeholder="Title", required)
-            input(type="text", name="author", placeholder="Author", required)
-            input(type="text", name="isbn", placeholder="ISBN", required)
-            input(type="text", name="publisher", placeholder="Publisher (optional)")
-            input(type="date", name="published")
-            input(type="number", name="pages", placeholder="Page count (optional)")
-            textarea(name="description", rows="3", placeholder="Description (optional)")
-            input(type="url", name="website", placeholder="Website URL (optional)")
-            button(type="submit", class="btn btn-green") Add Book
-
-        .back-link.centered
-          a(href="/") ← Back to Book List
-
-    footer.footer Built by James · Victory Code Bootcamp
+  .form-wrapper.flex.justify-center
+    .form-card(class="bg-white dark:bg-zinc-900 shadow-md rounded-lg p-6")
+      form(action="/add-book", method="POST", class="space-y-4")
+        input(type="text", name="title", placeholder="Title", required, class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
+        input(type="text", name="author", placeholder="Author", required, class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
+        input(type="text", name="isbn", placeholder="ISBN", required, class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
+        button(type="submit", class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded") Add Book
