@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
 const Book = require('../models/Book');
 
 const books = [
@@ -109,11 +108,27 @@ const books = [
 
 async function seedBooks() {
     try {
-        await Book.deleteMany();
-        await Book.insertMany(books);
-        console.log(' Seed complete: books added to MongoDB');
+        for (const book of books) {
+            const existing = await Book.findOne({ isbn: book.isbn });
+            if (!existing) {
+                await Book.create(book);
+                console.log(`Added: ${book.title}`);
+            } else {
+                // Optional: update missing coverUrl
+                const needsUpdate = !existing.coverUrl && book.coverUrl;
+                if (needsUpdate) {
+                    await Book.updateOne(
+                        { isbn: book.isbn },
+                        { coverUrl: book.coverUrl }
+                    );
+                    console.log(`Updated cover for: ${book.title}`);
+                } else {
+                    console.log(`Skipped (already exists): ${book.title}`);
+                }
+            }
+        }
     } catch (err) {
-        console.error(' Seed error:', err);
+        console.error('Seed error:', err);
         throw err;
     }
 }

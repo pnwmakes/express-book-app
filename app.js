@@ -33,7 +33,11 @@ app.get('/', async (req, res) => {
                 );
             });
         }
-        res.render('index', { books, search: req.query.search || '' });
+        res.render('index', {
+            books,
+            search: req.query.search || '',
+            seeded: req.query.seeded === 'true',
+        });
     } catch (err) {
         res.status(500).send('Error fetching books');
     }
@@ -93,7 +97,16 @@ app.get('/edit-book/:isbn', async (req, res) => {
 });
 
 app.post('/edit-book/:isbn', async (req, res) => {
-    const { title, author } = req.body;
+    const {
+        title,
+        author,
+        publisher,
+        published,
+        pages,
+        description,
+        website,
+        coverUrl,
+    } = req.body;
 
     if (!title || !author) {
         return res.status(400).send('Missing required fields');
@@ -102,17 +115,27 @@ app.post('/edit-book/:isbn', async (req, res) => {
     try {
         await Book.findOneAndUpdate(
             { isbn: req.params.isbn },
-            { title, author }
+            {
+                title,
+                author,
+                publisher,
+                published,
+                pages,
+                description,
+                website,
+                coverUrl,
+            }
         );
         res.redirect('/');
     } catch (err) {
         res.status(500).send('Error updating book');
     }
 });
+
 app.post('/seed', async (req, res) => {
     try {
         await seedBooks();
-        res.redirect('/');
+        res.redirect('/?seeded=true');
     } catch (err) {
         res.status(500).send('Error resetting library');
     }

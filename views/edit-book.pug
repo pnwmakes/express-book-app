@@ -1,12 +1,22 @@
 extends layout
 
 block content
-  h2.text-3xl.font-bold.mb-6.text-center Edit Book
+  if book
+    div(class="max-w-2xl mx-auto bg-white dark:bg-zinc-900 shadow-md rounded-lg p-6")
 
-  .form-wrapper.flex.justify-center
-    .form-card(class="bg-white dark:bg-zinc-900 shadow-md rounded-lg p-6")
-      form(action=`/edit-book/${book._id}`, method="POST", class="space-y-4")
-        input(type="text", name="title", value=book.title, required, class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
-        input(type="text", name="author", value=book.author, required, class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
-        input(type="text", name="isbn", value=book.isbn, required, class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
-        button(type="submit", class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded") Update Book
+      h2.text-2xl.font-bold.mb-4 Edit Book
+
+      if book.coverUrl
+        img(src=book.coverUrl, alt="Book Cover", class="w-32 mb-4 rounded shadow")
+
+      form(action=`/edit-book/${book.isbn}`, method="POST", class="space-y-4")
+        input(type="text", name="title", value=book.title, placeholder="Title", required, class="w-full p-2 border rounded")
+        input(type="text", name="author", value=book.author, placeholder="Author", required, class="w-full p-2 border rounded")
+        input(type="text", name="publisher", value=book.publisher, placeholder="Publisher", class="w-full p-2 border rounded")
+        input(type="date", name="published", value=book.published.toISOString().substring(0, 10), class="w-full p-2 border rounded")
+        input(type="number", name="pages", value=book.pages, placeholder="Pages", class="w-full p-2 border rounded")
+        input(type="url", name="website", value=book.website, placeholder="Website", class="w-full p-2 border rounded")
+        input(type="url", name="coverUrl", value=book.coverUrl, placeholder="Cover URL", class="w-full p-2 border rounded")
+        textarea(name="description", rows="5", placeholder="Description", class="w-full p-2 border rounded") #{book.description}
+
+        button(type="submit", class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded") Save Changes

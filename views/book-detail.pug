@@ -1,11 +1,25 @@
 extends layout
 
 block content
-  .max-w-2xl.mx-auto.p-6
-    .book-card(class="bg-white dark:bg-zinc-900 shadow-md rounded-lg p-6")
-      h2(class="text-2xl font-bold mb-4")= book.title
+  if book
+    div(class="max-w-2xl mx-auto bg-white dark:bg-zinc-900 shadow-md rounded-lg p-6")
 
-      p(class="text-lg mb-2 text-gray-700 dark:text-gray-300") Author: #{book.author}
-      p(class="text-lg mb-2 text-gray-600 dark:text-gray-400") ISBN: #{book.isbn}
+      if book.coverUrl
+        img(src=book.coverUrl, alt=`Cover for ${book.title}`, class="w-full h-96 object-contain mb-6 rounded shadow")
 
-      a(href="/", class="inline-block mt-4 text-blue-600 hover:underline") Back to List
+      h2(class="text-3xl font-bold mb-4")= book.title
+      p(class="text-zinc-700 dark:text-zinc-300 mb-2") Author: #{book.author}
+      p(class="text-zinc-600 dark:text-zinc-400 mb-2") ISBN: #{book.isbn}
+      p(class="text-zinc-600 dark:text-zinc-400 mb-2") Publisher: #{book.publisher}
+      p(class="text-zinc-600 dark:text-zinc-400 mb-2") Pages: #{book.pages}
+      p(class="text-zinc-600 dark:text-zinc-400 mb-4") Published: #{book.published ? book.published.toDateString() : 'Unknown'}
+
+      p(class="text-zinc-600 dark:text-zinc-400 mb-4") Description: #{book.description}
+
+      if book.website
+        a(href=book.website, target="_blank", class="text-blue-600 hover:underline") Visit Book Website
+
+      .mt-6
+        a(href="/", class="inline-block bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded") ← Back to List
+  else
+    p(class="text-center text-red-500") Book not found.

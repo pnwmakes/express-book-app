@@ -1,22 +1,38 @@
 extends layout
 
 block content
-  .flex.justify-between.items-center.mb-8
-    h1(class="text-3xl font-bold") Book List
-    a(href="/add-book", class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded") Add New Book
+  h1(class="text-3xl font-bold mb-8") Book List
+
+  if seeded
+    .transition-opacity.duration-700.ease-in-out.opacity-100#seed-message(class="bg-green-100 text-green-800 font-semibold text-center py-2 px-4 rounded mb-4")
+      Library updated with new books.
 
   if books.length
     ul(class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6")
       each book in books
         li(class="bg-white dark:bg-zinc-900 shadow-md rounded-lg p-6 flex flex-col justify-between")
+          if book.coverUrl
+            img(src=book.coverUrl, alt=`Cover for ${book.title}`, class="w-full h-64 object-contain mb-4 rounded shadow")
+
           h3(class="text-xl font-semibold mb-2")= book.title
           p(class="text-zinc-700 dark:text-zinc-300 mb-2") Author: #{book.author}
           p(class="text-zinc-600 dark:text-zinc-400 mb-4") ISBN: #{book.isbn}
 
           .flex.justify-between.items-center.space-x-2.mt-auto
-            a(href=`/book/${book.isbn}`, class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded") View
-            a(href=`/edit-book/${book.isbn}`, class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-1 px-3 rounded") Edit
-            form(action=`/delete-book/${book.isbn}`, method="POST", class="inline")
-              button(type="submit", class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded") Delete
+              a(href=`/book/${book.isbn}`, class="w-20 text-center bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded") View
+              a(href=`/edit-book/${book.isbn}`, class="w-20 text-center bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-1 px-3 rounded") Edit
+              form(action=`/delete-book/${book.isbn}`, method="POST", class="inline")
+                button(type="submit", class="w-20 text-center bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded") Delete
+
   else
     p(class="text-center text-zinc-600 dark:text-zinc-300") No books found. Add one to get started!
+
+  script.
+    setTimeout(() => {
+      const msg = document.getElementById('seed-message');
+      if (msg) {
+        msg.classList.remove('opacity-100');
+        msg.classList.add('opacity-0');
+        setTimeout(() => msg.remove(), 700);
+      }
+    }, 3000);

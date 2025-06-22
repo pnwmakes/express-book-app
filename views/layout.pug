@@ -3,20 +3,28 @@ html(lang="en")
   head
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    title Express Book App
+    title Code & Coffee: James's Library
     link(rel="stylesheet", href="/styles.css")
-  body(class="bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-gray-100 min-h-screen")
+  body(class="bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col")
 
-    // Navbar
-    nav(class="bg-white dark:bg-zinc-900 shadow mb-6")
-      .container.mx-auto.px-4.py-4.flex.justify-between.items-center
-        a(href="/", class="text-xl font-bold text-green-600 dark:text-green-400") Book App
-        ul(class="flex space-x-4")
-          li
-            a(href="/", class="text-gray-700 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-400") Home
-          li
-            a(href="/add-book", class="text-gray-700 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-400") Add Book
+    // 🔹 Navbar
+    header(class="bg-zinc-200 dark:bg-zinc-900 shadow-md")
+      .container.mx-auto.px-4.py-3.flex.items-center.justify-between
+        // Site title
+        a(href="/", class="text-xl font-bold text-zinc-800 dark:text-zinc-100")
+          | ☕ Code & Coffee: James's Library
 
-    // Main content
-    main(class="container mx-auto px-4")
+        // Navigation links
+        nav.flex.gap-4
+          a(href="/", class="text-zinc-700 dark:text-zinc-300 hover:text-blue-500") Home
+          a(href="/add-book", class="text-zinc-700 dark:text-zinc-300 hover:text-green-600") Add Book
+          form(action="/seed", method="POST")
+            button(type="submit", class="text-zinc-700 dark:text-zinc-300 hover:text-yellow-500") Re-Seed Library
+
+    // 🔹 Main page content
+    main(class="flex-1 container mx-auto px-4 py-6")
       block content
+
+    // 🔹 Optional footer
+    footer(class="bg-zinc-200 dark:bg-zinc-900 text-center py-4 text-sm text-zinc-600 dark:text-zinc-400")
+      | &copy; #{new Date().getFullYear()} ☕ Code & Coffee: James's Library. All rights reserved.
