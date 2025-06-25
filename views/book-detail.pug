@@ -8,13 +8,30 @@ block content
         img(src=book.coverUrl, alt=`Cover for ${book.title}`, class="w-full h-96 object-contain mb-6 rounded shadow")
 
       h2(class="text-3xl font-bold mb-4")= book.title
-      p(class="text-zinc-700 dark:text-zinc-300 mb-2") Author: #{book.author}
-      p(class="text-zinc-600 dark:text-zinc-400 mb-2") ISBN: #{book.isbn}
-      p(class="text-zinc-600 dark:text-zinc-400 mb-2") Publisher: #{book.publisher}
-      p(class="text-zinc-600 dark:text-zinc-400 mb-2") Pages: #{book.pages}
-      p(class="text-zinc-600 dark:text-zinc-400 mb-4") Published: #{book.published ? book.published.toDateString() : 'Unknown'}
 
-      p(class="text-zinc-600 dark:text-zinc-400 mb-4") Description: #{book.description}
+      p(class="text-zinc-700 dark:text-zinc-300 mb-2")
+        span(class="font-semibold") Author:
+        |  #{book.author}
+
+      p(class="text-zinc-600 dark:text-zinc-400 mb-2")
+        span(class="font-semibold") ISBN:
+        |  #{book.isbn}
+
+      p(class="text-zinc-600 dark:text-zinc-400 mb-2")
+        span(class="font-semibold") Publisher:
+        |  #{book.publisher}
+
+      p(class="text-zinc-600 dark:text-zinc-400 mb-2")
+        span(class="font-semibold") Pages:
+        |  #{book.pages}
+
+      p(class="text-zinc-600 dark:text-zinc-400 mb-4")
+        span(class="font-semibold") Published:
+        |  #{book.published ? book.published.toDateString() : 'Unknown'}
+
+      p(class="text-zinc-600 dark:text-zinc-400 mb-4")
+        span(class="font-semibold") Description:
+        |  #{book.description}
 
       if book.website
         a(href=book.website, target="_blank", class="text-blue-600 hover:underline") Visit Book Website

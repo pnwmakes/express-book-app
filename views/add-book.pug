@@ -1,16 +1,39 @@
 extends layout
 
 block content
-  h2.text-3xl.font-bold.mb-6.text-center Add a New Book
+  h2(class="text-3xl font-bold mb-6 text-center") Add a New Book
 
-  .form-wrapper.flex.justify-center
-    .form-card(class="bg-white dark:bg-zinc-900 shadow-md rounded-lg p-6")
-      form(action="/add-book", method="POST", class="space-y-4")
-        input(type="text", name="title", placeholder="Title", required, class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
-        input(type="text", name="author", placeholder="Author", required, class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
-        input(type="text", name="isbn", placeholder="ISBN", required, class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
-        textarea(name="description", placeholder="Description", rows="4", class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
-        input(type="date", name="publishedDate", placeholder="Published Date", class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
-        input(type="text", name="publisher", placeholder="Publisher", class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
-        input(type="text", name="genre", placeholder="Genre", class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
-        button(type="submit", class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded") Add Book
+  div(class="max-w-2xl mx-auto bg-white dark:bg-zinc-900 shadow-md rounded-lg p-6")
+    form(action="/add-book", method="POST", enctype="multipart/form-data", class="space-y-4")
+
+      label(for="title" class="block font-medium text-zinc-700 dark:text-zinc-300") Title
+      input#title(type="text", name="title", placeholder="Title", required, class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
+
+      label(for="author" class="block font-medium text-zinc-700 dark:text-zinc-300") Author
+      input#author(type="text", name="author", placeholder="Author", required, class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
+
+      label(for="isbn" class="block font-medium text-zinc-700 dark:text-zinc-300") ISBN
+      input#isbn(type="text", name="isbn", placeholder="ISBN", required, class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
+
+      label(for="publisher" class="block font-medium text-zinc-700 dark:text-zinc-300") Publisher
+      input#publisher(type="text", name="publisher", placeholder="Publisher", class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
+
+      label(for="published" class="block font-medium text-zinc-700 dark:text-zinc-300") Published Date
+      input#published(type="date", name="published", class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
+
+      label(for="pages" class="block font-medium text-zinc-700 dark:text-zinc-300") Pages
+      input#pages(type="number", name="pages", placeholder="Pages", class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
+
+      label(for="website" class="block font-medium text-zinc-700 dark:text-zinc-300") Website URL
+      input#website(type="url", name="website", placeholder="Website URL", class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
+
+      label(for="coverUrl" class="block font-medium text-zinc-700 dark:text-zinc-300") Cover Image URL
+      input#coverUrl(type="url", name="coverUrl", placeholder="Cover Image URL", class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
+
+      label(for="description" class="block font-medium text-zinc-700 dark:text-zinc-300") Description
+      textarea#description(name="description", placeholder="Description", rows="4", class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
+
+      label(for="coverImage" class="block font-medium text-zinc-700 dark:text-zinc-300") Upload Cover Image (optional)
+      input#coverImage(type="file", name="coverImage", accept="image/*", class="w-full p-2 rounded border dark:bg-zinc-800 dark:border-zinc-700")
+
+      button(type="submit", class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded") Add Book

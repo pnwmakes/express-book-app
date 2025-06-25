@@ -108,27 +108,17 @@ const books = [
 
 async function seedBooks() {
     try {
+        const seedIsbns = books.map((book) => book.isbn);
+        await Book.deleteMany({ isbn: { $in: seedIsbns } });
+
         for (const book of books) {
-            const existing = await Book.findOne({ isbn: book.isbn });
-            if (!existing) {
-                await Book.create(book);
-                console.log(`Added: ${book.title}`);
-            } else {
-                // Optional: update missing coverUrl
-                const needsUpdate = !existing.coverUrl && book.coverUrl;
-                if (needsUpdate) {
-                    await Book.updateOne(
-                        { isbn: book.isbn },
-                        { coverUrl: book.coverUrl }
-                    );
-                    console.log(`Updated cover for: ${book.title}`);
-                } else {
-                    console.log(`Skipped (already exists): ${book.title}`);
-                }
-            }
+            await Book.create({ ...book, source: 'seed' });
+            console.log(`✅ Added: ${book.title}`);
         }
+
+        console.log('📚 Seeding complete');
     } catch (err) {
-        console.error('Seed error:', err);
+        console.error('❌ Seed error:', err);
         throw err;
     }
 }

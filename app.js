@@ -4,6 +4,8 @@ const path = require('path');
 const mongoose = require('mongoose');
 const Book = require('./models/Book');
 const seedBooks = require('./scripts/seed-books');
+const multer = require('multer');
+const fs = require('fs');
 const app = express();
 
 mongoose
@@ -13,10 +15,14 @@ mongoose
     })
     .then(() => console.log(' MongoDB connected'))
     .catch((err) => console.error(' MongoDB connection error:', err));
+
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'pug');
+
+const upload = multer({ dest: 'public/uploads/' });
+
 app.get('/', async (req, res) => {
     const searchQuery = req.query.search ? req.query.search.toLowerCase() : '';
     try {
@@ -57,10 +63,26 @@ app.get('/add-book', (req, res) => {
     res.render('add-book');
 });
 
-app.post('/add-book', async (req, res) => {
-    const { isbn, title, author } = req.body;
+app.post('/add-book', upload.single('coverImage'), async (req, res) => {
+    const {
+        isbn,
+        title,
+        author,
+        publisher,
+        published,
+        pages,
+        description,
+        website,
+        coverUrl,
+    } = req.body;
+
     if (!isbn || !title || !author) {
         return res.status(400).send('Missing required fields');
+    }
+
+    let localCoverUrl = coverUrl;
+    if (req.file) {
+        localCoverUrl = `/uploads/${req.file.filename}`;
     }
 
     try {
@@ -68,6 +90,13 @@ app.post('/add-book', async (req, res) => {
             isbn,
             title,
             author,
+            publisher,
+            published,
+            pages,
+            description,
+            website,
+            coverUrl: localCoverUrl,
+            source: 'user',
         });
 
         await newBook.save();
@@ -134,10 +163,20 @@ app.post('/edit-book/:isbn', async (req, res) => {
 
 app.post('/seed', async (req, res) => {
     try {
+        await Book.deleteMany({});
         await seedBooks();
         res.redirect('/?seeded=true');
     } catch (err) {
         res.status(500).send('Error resetting library');
+    }
+});
+
+app.post('/seed-stock', async (req, res) => {
+    try {
+        await seedBooks();
+        res.redirect('/?seeded=true');
+    } catch (err) {
+        res.status(500).send('Error reseeding stock books');
     }
 });
 

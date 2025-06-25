@@ -10,6 +10,7 @@ const bookSchema = new mongoose.Schema({
     description: { type: String, default: '' },
     website: { type: String, default: '' },
     coverUrl: { type: String, default: '' },
+    source: { type: String, enum: ['seed', 'user'], default: 'user' },
 });
 
 module.exports = mongoose.model('Book', bookSchema);
